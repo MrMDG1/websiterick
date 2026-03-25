@@ -23,6 +23,34 @@ function setActiveAdminLink() {
   });
 }
 
+function formatDateTime(value) {
+  if (!value) return '-';
+  const date = new Date(value.replace(' ', 'T'));
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleString('nl-NL', { dateStyle: 'medium', timeStyle: 'short' });
+}
+
+function showLeadDetail(lead) {
+  const card = document.getElementById('lead-detail-card');
+  if (!card) return;
+  document.getElementById('lead-detail-name').textContent = lead.name || '-';
+  document.getElementById('lead-detail-phone').textContent = lead.phone || '-';
+  document.getElementById('lead-detail-email').textContent = lead.email || '-';
+  document.getElementById('lead-detail-city').textContent = lead.city || '-';
+  document.getElementById('lead-detail-message').textContent = lead.message || '-';
+  document.getElementById('lead-detail-created').textContent = `Binnengekomen op ${formatDateTime(lead.created_at)}`;
+  card.classList.remove('hidden');
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function bindLeadDetailClose() {
+  const closeBtn = document.getElementById('lead-detail-close');
+  if (!closeBtn) return;
+  closeBtn.addEventListener('click', () => {
+    document.getElementById('lead-detail-card')?.classList.add('hidden');
+  });
+}
+
 async function loadSession() {
   const { user } = await api('/api/auth/me');
   if (!user) {
@@ -105,13 +133,22 @@ async function loadLeads() {
   document.getElementById('lead-count').textContent = leads.length;
   document.getElementById('lead-table').innerHTML = leads.map((lead) => `
     <tr>
-      <td><strong>${escapeHtml(lead.name)}</strong><div class="small">${escapeHtml(lead.created_at)}</div></td>
+      <td><strong>${escapeHtml(lead.name)}</strong><div class="small">${escapeHtml(formatDateTime(lead.created_at))}</div></td>
       <td>${escapeHtml(lead.phone || '-')}</td>
       <td>${escapeHtml(lead.city || '-')}</td>
       <td>${escapeHtml(lead.message.slice(0, 80))}${lead.message.length > 80 ? '…' : ''}</td>
+      <td><button type="button" class="btn btn-ghost btn-small" data-action="view-lead" data-id="${lead.id}">Bekijk contactaanvraag</button></td>
     </tr>
-  `).join('') || '<tr><td colspan="4">Nog geen leads</td></tr>';
+  `).join('') || '<tr><td colspan="5">Nog geen leads</td></tr>';
+
+  document.querySelectorAll('[data-action="view-lead"]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const lead = leads.find((item) => String(item.id) === String(btn.dataset.id));
+      if (lead) showLeadDetail(lead);
+    });
+  });
 }
+
 
 function resetProjectForm() {
   const form = document.getElementById('project-form');
@@ -331,6 +368,7 @@ function bindLogout() {
   bindSettingsForm();
   bindTables();
   bindLogout();
+  bindLeadDetailClose();
   bindQuickActions();
   setActiveAdminLink();
   window.addEventListener('hashchange', setActiveAdminLink);

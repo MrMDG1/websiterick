@@ -72,13 +72,13 @@
         <div class="quick-actions">
           <button type="button" class="quick-action" data-jump="#projects">
             <span class="quick-action-kicker">Snel starten</span>
-            <strong>Nieuw project toevoegen toevoegen</strong>
+            <strong>Nieuw project toevoegen</strong>
             <span class="small">Upload foto’s en zet direct iets live op de site.</span>
           </button>
           <button type="button" class="quick-action" data-jump="#reviews">
             <span class="quick-action-kicker">Vertrouwen</span>
             <strong>Review toevoegen</strong>
-            <span class="small">Nieuwe review toevoegens geven direct extra social proof.</span>
+            <span class="small">Nieuwe reviews geven direct extra social proof.</span>
           </button>
           <button type="button" class="quick-action" data-jump="#services">
             <span class="quick-action-kicker">Structuur</span>
@@ -235,10 +235,42 @@
           <div class="table-wrap" style="margin-top:12px;">
             <table>
               <thead>
-                <tr><th>Naam</th><th>Telefoon</th><th>Plaats</th><th>Bericht</th></tr>
+                <tr><th>Naam</th><th>Telefoon</th><th>Plaats</th><th>Bericht</th><th>Actie</th></tr>
               </thead>
               <tbody id="lead-table"></tbody>
             </table>
+          </div>
+          <div id="lead-detail-card" class="lead-detail-card hidden" style="margin-top:18px;">
+            <div class="form-section-title">
+              <div>
+                <h3 style="margin:0;">Bekijk contactaanvraag</h3>
+                <p class="meta" style="margin:6px 0 0;">Meer context bij een lead, zodat je sneller kunt terugbellen of reageren.</p>
+              </div>
+              <button id="lead-detail-close" type="button" class="btn btn-ghost">Sluiten</button>
+            </div>
+            <div class="lead-detail-grid">
+              <div class="content-card">
+                <div class="eyebrow">Naam</div>
+                <strong id="lead-detail-name">-</strong>
+              </div>
+              <div class="content-card">
+                <div class="eyebrow">Telefoon</div>
+                <strong id="lead-detail-phone">-</strong>
+              </div>
+              <div class="content-card">
+                <div class="eyebrow">E-mail</div>
+                <strong id="lead-detail-email">-</strong>
+              </div>
+              <div class="content-card">
+                <div class="eyebrow">Plaats</div>
+                <strong id="lead-detail-city">-</strong>
+              </div>
+            </div>
+            <div class="content-card" style="margin-top:14px;">
+              <div class="eyebrow">Bericht</div>
+              <div id="lead-detail-message" style="white-space:pre-wrap;line-height:1.7;">-</div>
+            </div>
+            <div class="small" id="lead-detail-created" style="margin-top:12px;">-</div>
           </div>
         </section>
 
