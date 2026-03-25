@@ -1,0 +1,203 @@
+
+async function getJson(url) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Request failed: ${url}`);
+  return res.json();
+}
+
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value;
+}
+
+function setHtml(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = value;
+}
+
+function setHref(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.href = value;
+}
+
+function iconForService(service = '') {
+  const value = service.toLowerCase();
+  if (value.includes('lekk')) return '💧';
+  if (value.includes('plat')) return '▭';
+  if (value.includes('hell')) return '🏠';
+  if (value.includes('goot')) return '↘';
+  if (value.includes('spoed')) return '⚡';
+  return '🔨';
+}
+
+function projectCard(project) {
+  return `
+    <article class="card project-card">
+      ${project.hero_image ? `<img src="${project.hero_image}" alt="${project.title}" class="project-cover">` : '<div class="project-placeholder">Projectfoto</div>'}
+      <div class="meta-line">
+        <span class="tag">${project.service_type || 'Project'}</span>
+        <span class="meta">${project.place}</span>
+      </div>
+      <h3>${project.title}</h3>
+      <p class="meta">${project.short_description}</p>
+      <a class="btn btn-secondary" href="/project/${project.slug}">Bekijk project</a>
+    </article>`;
+}
+
+function reviewCard(review) {
+  return `
+    <article class="card review-card">
+      <div class="review-top">
+        <span class="tag">${'★'.repeat(review.stars || 5)}</span>
+        <span class="quote-mark">“”</span>
+      </div>
+      <p>“${review.review_text}”</p>
+      <div class="meta">${review.customer_name}${review.place ? ` — ${review.place}` : ''}</div>
+    </article>`;
+}
+
+function serviceCards() {
+  return [
+    ['Dakrenovatie', 'Voor daken die verouderd zijn of toe zijn aan een nette vernieuwing.'],
+    ['Daklekkage oplossen', 'Snelle inspectie en gerichte oplossing om verdere schade te voorkomen.'],
+    ['Platte daken', 'Onderhoud, herstel en renovatie van platte daken met duidelijke aanpak.'],
+    ['Hellende daken', 'Herstel, renovatie en onderhoud van hellende daken met nette afwerking.'],
+    ['Dakgoten', 'Voor een goede waterafvoer en een nette afwerking rondom het dak.'],
+    ['Spoedservice', 'Bij acute schade of lekkage moet er snel worden geschakeld.']
+  ].map(([title, text]) => `
+    <article class="card service-card">
+      <div class="service-icon">${iconForService(title)}</div>
+      <h3>${title}</h3>
+      <p class="meta">${text}</p>
+    </article>
+  `).join('');
+}
+
+function bindMobileMenu() {
+  const toggle = document.querySelector('.mobile-menu-toggle');
+  const nav = document.getElementById('site-nav');
+  if (!toggle || !nav) return;
+
+  const close = () => {
+    nav.classList.remove('is-open');
+    toggle.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+  };
+
+  toggle.addEventListener('click', () => {
+    const isOpen = nav.classList.toggle('is-open');
+    toggle.classList.toggle('is-open', isOpen);
+    toggle.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  nav.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', close);
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900) close();
+  });
+}
+
+async function hydrateSettings() {
+  const settings = await getJson('/api/settings');
+  document.title = settings.business_name;
+  setText('business-name', settings.business_name);
+  setText('hero-title', settings.hero_title);
+  setText('hero-subtitle', settings.hero_subtitle);
+  setText('region-text', settings.region_text);
+  setText('home-card-1-label', settings.home_card_1_label);
+  setText('home-card-1-title', settings.home_card_1_title);
+  setText('home-card-1-text', settings.home_card_1_text);
+  setText('home-card-2-label', settings.home_card_2_label);
+  setText('home-card-2-title', settings.home_card_2_title);
+  setText('home-card-2-text', settings.home_card_2_text);
+  setText('home-card-3-label', settings.home_card_3_label);
+  setText('home-card-3-title', settings.home_card_3_title);
+  setText('home-card-3-text', settings.home_card_3_text);
+  setText('footer-region', settings.region_text);
+  setText('contact-region', settings.region_text);
+  setText('site-name', settings.business_name);
+  setText('contact-phone-text', settings.phone);
+  setText('contact-email-text', settings.email);
+  setText('business-name-inline', settings.business_name);
+  ['phone-btn', 'phone-btn-2', 'contact-phone'].forEach(id => setHref(id, `tel:${settings.phone}`));
+  ['contact-email'].forEach(id => setHref(id, `mailto:${settings.email}`));
+  const normalWa = `https://wa.me/${settings.whatsapp}?text=${encodeURIComponent('Hallo, ik heb een vraag over mijn dak.')}`;
+  const urgentWa = `https://wa.me/${settings.whatsapp}?text=${encodeURIComponent('Hallo, ik heb spoed met mijn dak en zoek direct hulp.')}`;
+  ['wa-btn', 'wa-btn-2', 'wa-float'].forEach(id => setHref(id, normalWa));
+  setHref('wa-urgent', urgentWa);
+  if (settings.emergency_enabled) {
+    setHtml('emergency-badge', '<div class="badge badge-warn">Spoed bij lekkage of schade? App direct.</div>');
+  }
+}
+
+async function hydrateHome() {
+  const [projects, reviews] = await Promise.all([
+    getJson('/api/projects/featured'),
+    getJson('/api/reviews/featured')
+  ]);
+  const pWrap = document.getElementById('featured-projects');
+  if (pWrap) pWrap.innerHTML = projects.length ? projects.map(projectCard).join('') : '<div class="empty-state card">Nog geen projecten toegevoegd.</div>';
+  const rWrap = document.getElementById('featured-reviews');
+  if (rWrap) rWrap.innerHTML = reviews.length ? reviews.map(reviewCard).join('') : '<div class="empty-state card">Nog geen reviews toegevoegd.</div>';
+}
+
+async function hydrateProjectsPage() {
+  const projects = await getJson('/api/projects');
+  const wrap = document.getElementById('all-projects');
+  if (wrap) wrap.innerHTML = projects.length ? projects.map(projectCard).join('') : '<div class="empty-state card">Nog geen projecten toegevoegd.</div>';
+}
+
+async function hydrateProjectPage() {
+  const slug = location.pathname.split('/').pop() || '';
+  const project = await getJson(`/api/projects/${slug}`);
+  setText('project-service', project.service_type || 'Project');
+  document.title = `${project.title} | Dak & Renovatie Purmerend`;
+  setText('project-title', project.title);
+  setText('project-place', project.place);
+  setText('project-short', project.short_description);
+  const imageWrap = document.getElementById('project-image-wrap');
+  if (imageWrap && project.hero_image) imageWrap.innerHTML = `<img src="${project.hero_image}" alt="${project.title}" class="project-detail-image">`;
+  const full = document.getElementById('project-full');
+  if (full) full.innerHTML = `<p>${project.full_description || ''}</p>`;
+  const gallery = document.getElementById('project-gallery');
+  if (gallery) {
+    gallery.innerHTML = project.images?.length ? `<div class="project-gallery-grid">${project.images.map((image) => `<img src="${image.image_path}" alt="${project.title}" class="project-gallery-image">`).join('')}</div>` : '<div class="meta">Nog geen extra projectfoto’s toegevoegd.</div>';
+  }
+}
+
+function bindContactForm() {
+  const form = document.getElementById('contact-form');
+  if (!form) return;
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const status = document.getElementById('contact-status');
+    status.innerHTML = '';
+    const data = Object.fromEntries(new FormData(form).entries());
+    const res = await fetch('/api/contact', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data)
+    });
+    const json = await res.json();
+    status.innerHTML = `<div class="notice ${res.ok ? '' : 'error'}">${json.message || json.error}</div>`;
+    status.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    if (res.ok) form.reset();
+  });
+}
+
+(async function init() {
+  setText('year', new Date().getFullYear());
+  bindMobileMenu();
+  const page = document.body.dataset.page;
+  const grid = document.getElementById('services-grid');
+  if (grid) grid.innerHTML = serviceCards();
+  try {
+    await hydrateSettings();
+    if (page === 'home') await hydrateHome();
+    if (page === 'projecten') await hydrateProjectsPage();
+    if (page === 'project') await hydrateProjectPage();
+  } catch (e) {
+    console.warn(e);
+  }
+  bindContactForm();
+})();

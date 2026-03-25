@@ -1,0 +1,16 @@
+{
+  "name": "Dak & Renovatie Purmerend",
+  "short_name": "Daksite",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#135ef2",
+  "icons": [
+    {
+      "src": "/images/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
