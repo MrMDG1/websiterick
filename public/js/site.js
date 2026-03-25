@@ -20,6 +20,25 @@ function setHref(id, value) {
   if (el) el.href = value;
 }
 
+
+async function trackEvent(eventType, targetLabel = '', targetValue = '') {
+  try {
+    await fetch('/api/analytics/event', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        event_type: eventType,
+        page_path: location.pathname,
+        target_label: targetLabel,
+        target_value: targetValue
+      })
+    });
+  } catch (error) {
+    console.warn('Analytics event failed', error);
+  }
+}
+
+
 function iconForService(service = '') {
   const value = service.toLowerCase();
   if (value.includes('lekk')) return '💧';
@@ -56,19 +75,13 @@ function reviewCard(review) {
     </article>`;
 }
 
-function serviceCards() {
-  return [
-    ['Dakrenovatie', 'Voor daken die verouderd zijn of toe zijn aan een nette vernieuwing.'],
-    ['Daklekkage oplossen', 'Snelle inspectie en gerichte oplossing om verdere schade te voorkomen.'],
-    ['Platte daken', 'Onderhoud, herstel en renovatie van platte daken met duidelijke aanpak.'],
-    ['Hellende daken', 'Herstel, renovatie en onderhoud van hellende daken met nette afwerking.'],
-    ['Dakgoten', 'Voor een goede waterafvoer en een nette afwerking rondom het dak.'],
-    ['Spoedservice', 'Bij acute schade of lekkage moet er snel worden geschakeld.']
-  ].map(([title, text]) => `
+async function serviceCards() {
+  const services = await getJson('/api/services');
+  return services.map((service) => `
     <article class="card service-card">
-      <div class="service-icon">${iconForService(title)}</div>
-      <h3>${title}</h3>
-      <p class="meta">${text}</p>
+      <div class="service-icon">${serviceIconMarkup(service)}</div>
+      <h3>${service.title}</h3>
+      <p class="meta">${service.description}</p>
     </article>
   `).join('');
 }
@@ -103,9 +116,24 @@ async function hydrateSettings() {
   const settings = await getJson('/api/settings');
   document.title = settings.business_name;
   setText('business-name', settings.business_name);
+  setText('hero-eyebrow', settings.hero_eyebrow);
   setText('hero-title', settings.hero_title);
   setText('hero-subtitle', settings.hero_subtitle);
-  setText('region-text', settings.region_text);
+  setText('hero-note', settings.hero_note);
+  setText('hero-point-1', settings.hero_point_1);
+  setText('hero-point-2', settings.hero_point_2);
+  setText('hero-point-3', settings.hero_point_3);
+  setText('panel-kicker', settings.panel_kicker);
+  setText('panel-title', settings.panel_title);
+  setText('panel-text', settings.panel_text);
+  setText('stat-1-title', settings.stat_1_title);
+  setText('stat-1-text', settings.stat_1_text);
+  setText('stat-2-title', settings.stat_2_title);
+  setText('stat-2-text', settings.stat_2_text);
+  setText('stat-3-title', settings.stat_3_title);
+  setText('stat-3-text', settings.stat_3_text);
+  setText('stat-4-title', settings.stat_4_title);
+  setText('stat-4-text', settings.stat_4_text);
   setText('home-card-1-label', settings.home_card_1_label);
   setText('home-card-1-title', settings.home_card_1_title);
   setText('home-card-1-text', settings.home_card_1_text);
@@ -115,7 +143,35 @@ async function hydrateSettings() {
   setText('home-card-3-label', settings.home_card_3_label);
   setText('home-card-3-title', settings.home_card_3_title);
   setText('home-card-3-text', settings.home_card_3_text);
-  setText('footer-region', settings.region_text);
+setText('services-page-eyebrow', settings.services_page_eyebrow);
+setText('services-page-title', settings.services_page_title);
+setText('services-page-text', settings.services_page_text);
+setText('services-cta-title', settings.services_cta_title);
+setText('services-cta-text', settings.services_cta_text);
+setText('projects-page-eyebrow', settings.projects_page_eyebrow);
+setText('projects-page-title', settings.projects_page_title);
+setText('projects-page-text', settings.projects_page_text);
+setText('over-page-eyebrow', settings.over_page_eyebrow);
+setText('over-page-title', settings.over_page_title);
+setText('over-page-text', settings.over_page_text);
+setText('over-value-1', settings.over_value_1);
+setText('over-value-2', settings.over_value_2);
+setText('over-value-3', settings.over_value_3);
+setText('over-value-4', settings.over_value_4);
+setText('over-value-5', settings.over_value_5);
+setText('over-region-title', settings.over_region_title);
+setText('over-region-text', settings.over_region_text);
+setText('over-region-note', settings.over_region_note);
+setText('over-cta-title', settings.over_cta_title);
+setText('over-cta-text', settings.over_cta_text);
+setText('contact-page-eyebrow', settings.contact_page_eyebrow);
+setText('contact-page-title', settings.contact_page_title);
+setText('contact-page-text', settings.contact_page_text);
+setText('contact-strip-1', settings.contact_strip_1);
+setText('contact-strip-2', settings.contact_strip_2);
+setText('contact-strip-3', settings.contact_strip_3);
+setText('contact-form-note', settings.contact_form_note);
+setText('footer-region', settings.region_text);
   setText('contact-region', settings.region_text);
   setText('site-name', settings.business_name);
   setText('contact-phone-text', settings.phone);
@@ -128,7 +184,7 @@ async function hydrateSettings() {
   ['wa-btn', 'wa-btn-2', 'wa-float'].forEach(id => setHref(id, normalWa));
   setHref('wa-urgent', urgentWa);
   if (settings.emergency_enabled) {
-    setHtml('emergency-badge', '<div class="badge badge-warn">Spoed bij lekkage of schade? App direct.</div>');
+    setHtml('emergency-badge', `<div class="badge badge-warn">${settings.emergency_text || 'Spoed bij lekkage of schade? App direct.'}</div>`);
   }
 }
 
@@ -141,6 +197,16 @@ async function hydrateHome() {
   if (pWrap) pWrap.innerHTML = projects.length ? projects.map(projectCard).join('') : '<div class="empty-state card">Nog geen projecten toegevoegd.</div>';
   const rWrap = document.getElementById('featured-reviews');
   if (rWrap) rWrap.innerHTML = reviews.length ? reviews.map(reviewCard).join('') : '<div class="empty-state card">Nog geen reviews toegevoegd.</div>';
+}
+
+async function hydrateServices() {
+  const wrap = document.getElementById('services-grid');
+  if (!wrap) return;
+  try {
+    wrap.innerHTML = await serviceCards();
+  } catch (error) {
+    wrap.innerHTML = "<div class=\'empty-state card\'>Nog geen diensten toegevoegd.</div>";
+  }
 }
 
 async function hydrateProjectsPage() {
@@ -167,6 +233,17 @@ async function hydrateProjectPage() {
   }
 }
 
+
+function bindTrackables() {
+  document.querySelectorAll('[data-track]').forEach((el) => {
+    if (el.dataset.trackBound === '1') return;
+    el.dataset.trackBound = '1';
+    el.addEventListener('click', () => {
+      trackEvent('cta_click', el.dataset.track || el.textContent.trim(), el.getAttribute('href') || '');
+    });
+  });
+}
+
 function bindContactForm() {
   const form = document.getElementById('contact-form');
   if (!form) return;
@@ -181,13 +258,14 @@ function bindContactForm() {
     const json = await res.json();
     status.innerHTML = `<div class="notice ${res.ok ? '' : 'error'}">${json.message || json.error}</div>`;
     status.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    if (res.ok) form.reset();
+    if (res.ok) { trackEvent('cta_click', 'Contactformulier verzonden', 'contact_form'); form.reset(); }
   });
 }
 
 (async function init() {
   setText('year', new Date().getFullYear());
   bindMobileMenu();
+  bindTrackables();
   const page = document.body.dataset.page;
   const grid = document.getElementById('services-grid');
   if (grid) grid.innerHTML = serviceCards();

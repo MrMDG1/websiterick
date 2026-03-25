@@ -1,6 +1,6 @@
 {
   "name": "daksite-scaffold-v1",
-  "version": "1.0.0",
+  "version": "1.4.6",
   "description": "Custom dakdekker website + mini CMS scaffold",
   "main": "app.js",
   "scripts": {

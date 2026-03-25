@@ -126,19 +126,21 @@ button,input,textarea,select{font:inherit}
   border-radius:999px;padding:14px 18px;font-weight:800;
   border:1px solid transparent;cursor:pointer;transition:.18s ease;
 }
-.btn:hover{transform:translateY(-1px)}
+.btn:hover{transform:translateY(-1px);box-shadow:0 12px 22px rgba(15,23,42,.08)}
 .btn-small{padding:9px 12px;font-size:.9rem}
 .btn-primary{
   background:linear-gradient(180deg,var(--accent),var(--accent-dark));
   color:#fff;box-shadow:0 14px 28px rgba(19,94,242,.22)
 }
-.btn-primary:hover{filter:brightness(.98)}
+.btn-primary:hover{filter:brightness(.97);box-shadow:0 16px 30px rgba(19,94,242,.28)}
 .btn-secondary{
   background:#fff;border-color:var(--line);color:var(--text);box-shadow:var(--shadow-sm)
 }
+.btn-secondary:hover{background:#f8fbff;border-color:rgba(19,94,242,.18);color:var(--accent)}
 .btn-ghost{
   background:transparent;border-color:var(--line);color:var(--text)
 }
+.btn-ghost:hover{background:#f8fbff;border-color:rgba(19,94,242,.18);color:var(--accent)}
 .danger{color:var(--danger)}
 .hero-points,.trust-row{
   display:flex;gap:10px;flex-wrap:wrap;margin-top:18px
@@ -496,4 +498,66 @@ th{font-size:.84rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mu
   .hero-copy,.hero-panel,.page-intro,.login-card,.login-hero{padding:20px}
   .contact-strip-item{padding:12px 14px}
   .quick-action{padding:16px}
+}
+
+.grid-fields-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.analytics-grid{margin-top:18px}
+.analytics-kpi-row{margin-top:16px}
+@media (max-width: 900px){
+  .grid-fields-3{grid-template-columns:1fr}
+}
+
+.service-icon svg { width: 26px; height: 26px; display:block; }
+.service-icon-image { width: 26px; height: 26px; object-fit: contain; display:block; }
+.table-actions { display:flex; gap:8px; flex-wrap:wrap; }
+.checkbox-row { display:flex; align-items:center; gap:10px; color: var(--muted); font-size:14px; }
+.admin-nav a { cursor:pointer; }
+
+
+/* v1.4.7 complete polish */
+.login-link:hover{background:#f8fbff;border-color:rgba(19,94,242,.18);color:var(--accent)}
+.brand:hover .brand-mark{transform:translateY(-1px);box-shadow:0 14px 28px rgba(19,94,242,.28)}
+.brand-mark{transition:.18s ease}
+.section-kicker{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 12px;border-radius:999px;border:1px solid rgba(19,94,242,.10);
+  background:var(--accent-soft);color:var(--accent);font-weight:800;font-size:.82rem;
+  letter-spacing:.02em;margin-bottom:12px;
+}
+.section-kicker::before{
+  content:"";width:7px;height:7px;border-radius:999px;background:currentColor;opacity:.9;
+}
+.section-copy{max-width:760px}
+.section-title .btn{white-space:nowrap}
+.service-card,.project-card,.review-card,.mini-card,.content-card,.kpi-box,.contact-strip-item{
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+}
+.service-card:hover,.project-card:hover,.review-card:hover,.mini-card:hover,.content-card:hover,.contact-strip-item:hover{
+  transform:translateY(-2px);box-shadow:0 18px 38px rgba(16,24,40,.08);border-color:#d7def0;
+}
+.project-card:hover .project-cover,.review-card:hover .quote-mark,.service-card:hover .service-icon{
+  transform:translateY(-1px);
+}
+.project-cover,.quote-mark,.service-icon{transition:transform .18s ease, box-shadow .18s ease}
+.quote-mark{box-shadow:0 8px 20px rgba(19,94,242,.08)}
+.section-soft{background:linear-gradient(180deg,rgba(255,255,255,.5),rgba(255,255,255,0));border-top:1px solid rgba(228,231,236,.7);border-bottom:1px solid rgba(228,231,236,.7)}
+.table-wrap table tbody tr:hover{background:#f9fbff}
+.table-wrap table tbody tr:hover td{border-bottom-color:#d7def0}
+.admin-sidebar{overflow:auto}
+.admin-sidebar::-webkit-scrollbar{width:10px}
+.admin-sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:999px}
+.admin-sidebar::-webkit-scrollbar-track{background:transparent}
+.admin-nav-label{display:flex;flex-direction:column;gap:2px}
+.admin-nav-label .small{font-size:.77rem;color:rgba(255,255,255,.58)}
+.panel{padding:22px}
+.settings-block h3{letter-spacing:-.02em}
+.settings-block .meta{max-width:72ch}
+.checkbox-row{font-weight:600}
+.page-intro .eyebrow{margin-bottom:14px}
+.cta-strip{border:1px solid var(--line)}
+.footer-shell a:hover{color:var(--accent)}
+.hidden{display:none !important}
+.service-detail-grid .content-card h2{margin-bottom:8px}
+@media (max-width:900px){
+  .section-title .btn{width:100%}
 }

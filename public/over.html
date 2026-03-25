@@ -46,37 +46,39 @@
   <main class="section">
     <div class="container">
       <div class="page-intro">
-        <div class="eyebrow">Over ons</div>
-        <h1>Degelijk dakwerk, duidelijke communicatie</h1>
-        <p>Geen moeilijke verhalen, maar gewoon eerlijk advies en werk waar je op kunt vertrouwen. We denken praktisch mee en leveren het netjes op.</p>
+        <div class="eyebrow" id="over-page-eyebrow">Over ons</div>
+        <h1 id="over-page-title">Degelijk dakwerk, duidelijke communicatie</h1>
+        <p id="over-page-text">Geen moeilijke verhalen, maar gewoon eerlijk advies en werk waar je op kunt vertrouwen. We denken praktisch mee en leveren het netjes op.</p>
       </div>
 
       <div class="grid-2">
         <article class="card content-card">
+          <div class="section-kicker">Kernwaarden</div>
           <h2>Waar we voor staan</h2>
           <ul class="plain-list">
-            <li>Eerlijk advies</li>
-            <li>Duidelijke afspraken</li>
-            <li>Netjes werken</li>
-            <li>Snel contact</li>
-            <li>Oplossingsgericht meedenken</li>
+            <li id="over-value-1">Eerlijk advies</li>
+            <li id="over-value-2">Duidelijke afspraken</li>
+            <li id="over-value-3">Netjes werken</li>
+            <li id="over-value-4">Snel contact</li>
+            <li id="over-value-5">Oplossingsgericht meedenken</li>
           </ul>
         </article>
         <article class="card content-card">
-          <h2>Werkgebied</h2>
-          <p id="contact-region">Purmerend en omgeving</p>
-          <p class="meta">Van Purmerend tot Landsmeer, Hoorn, Zaandam en omliggende plaatsen.</p>
+          <div class="section-kicker">Regio</div>
+          <h2 id="over-region-title">Werkgebied</h2>
+          <p id="over-region-text">Purmerend en omgeving</p>
+          <p id="over-region-note" class="meta">Van Purmerend tot Landsmeer, Hoorn, Zaandam en omliggende plaatsen.</p>
         </article>
       </div>
 
       <div class="card cta-strip" style="margin-top:24px;">
         <div>
-          <h2 style="margin:0 0 8px;">Een vakman zoeken die meedenkt en doorpakt?</h2>
-          <div class="meta">Neem gerust contact op voor advies of een afspraak.</div>
+          <h2 id="over-cta-title" style="margin:0 0 8px;">Een vakman zoeken die meedenkt en doorpakt?</h2>
+          <div id="over-cta-text" class="meta">Neem gerust contact op voor advies of een afspraak.</div>
         </div>
         <div class="hero-cta">
-          <a id="phone-btn" class="btn btn-primary" href="tel:0612345678">Bel direct</a>
-          <a id="wa-btn" class="btn btn-secondary" href="#">WhatsApp</a>
+          <a id="phone-btn" data-track="Bel direct" class="btn btn-primary" href="tel:0612345678">Bel direct</a>
+          <a id="wa-btn" data-track="WhatsApp" class="btn btn-secondary" href="#">WhatsApp</a>
         </div>
       </div>
     </div>
@@ -88,7 +90,7 @@
     <div class="small">Werkgebied: <span id="footer-region">Purmerend en omgeving</span></div>
   </div>
 </footer>
-<a id="wa-float" class="btn btn-primary whatsapp-float" href="#">WhatsApp</a>
+<a id="wa-float" data-track="WhatsApp sticky" class="btn btn-primary whatsapp-float" href="#">WhatsApp</a>
 <script src="/js/site.js"></script>
 
 </body>

@@ -54,6 +54,19 @@ CREATE TABLE IF NOT EXISTS reviews (
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+
+CREATE TABLE IF NOT EXISTS services (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  description TEXT NOT NULL,
+  icon_key TEXT NOT NULL DEFAULT 'hammer',
+  icon_image TEXT,
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  is_published INTEGER NOT NULL DEFAULT 1,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS leads (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
@@ -65,3 +78,17 @@ CREATE TABLE IF NOT EXISTS leads (
 );
 
 INSERT OR IGNORE INTO site_settings (id) VALUES (1);
+
+
+CREATE TABLE IF NOT EXISTS analytics_events (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  event_type TEXT NOT NULL,
+  page_path TEXT NOT NULL DEFAULT '/',
+  target_label TEXT,
+  target_value TEXT,
+  visitor_id TEXT,
+  session_id TEXT,
+  user_agent TEXT,
+  ip_address TEXT,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

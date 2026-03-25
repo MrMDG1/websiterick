@@ -18,11 +18,13 @@
       </div>
 
       <nav class="admin-nav">
-        <a href="#dashboard" class="active">Dashboard <span>→</span></a>
-        <a href="#projects">Projecten <span>→</span></a>
-        <a href="#reviews">Reviews <span>→</span></a>
-        <a href="#leads">Leads <span>→</span></a>
-        <a href="#settings">Instellingen <span>→</span></a>
+        <a href="#dashboard" class="active"><span class="admin-nav-label"><span>Dashboard</span><span class="small">Overzicht</span></span><span>→</span></a>
+        <a href="#projects"><span class="admin-nav-label"><span>Projecten</span><span class="small">Portfolio beheren</span></span><span>→</span></a>
+        <a href="#reviews"><span class="admin-nav-label"><span>Reviews</span><span class="small">Vertrouwen tonen</span></span><span>→</span></a>
+        <a href="#services"><span class="admin-nav-label"><span>Diensten</span><span class="small">Blokken en iconen</span></span><span>→</span></a>
+        <a href="#leads"><span class="admin-nav-label"><span>Contactaanvragen</span><span class="small">Nieuwe berichten</span></span><span>→</span></a>
+        <a href="#analytics"><span class="admin-nav-label"><span>Analytics</span><span class="small">Bezoekers en CTA’s</span></span><span>→</span></a>
+        <a href="#settings"><span class="admin-nav-label"><span>Website-instellingen</span><span class="small">Content en contact</span></span><span>→</span></a>
       </nav>
 
       <div class="muted-box" style="margin-top:20px;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.82);">
@@ -44,7 +46,7 @@
           </div>
           <div class="utility-row">
             <a href="/index.html" class="btn btn-secondary">← Terug naar website</a>
-            <a href="/contact.html" class="btn btn-ghost">Contactpagina</a>
+            <a href="/contact.html" class="btn btn-ghost">Contactpagina inhoud</a>
           </div>
         </div>
 
@@ -61,23 +63,37 @@
             <div class="label">Leads</div>
             <div class="value" id="lead-count">0</div>
           </div>
+          <div class="kpi-box">
+            <div class="label">Bezoekers 7d</div>
+            <div class="value" id="analytics-visitors-7d">0</div>
+          </div>
         </div>
 
         <div class="quick-actions">
           <button type="button" class="quick-action" data-jump="#projects">
             <span class="quick-action-kicker">Snel starten</span>
-            <strong>Nieuw project toevoegen</strong>
+            <strong>Nieuw project toevoegen toevoegen</strong>
             <span class="small">Upload foto’s en zet direct iets live op de site.</span>
           </button>
           <button type="button" class="quick-action" data-jump="#reviews">
             <span class="quick-action-kicker">Vertrouwen</span>
             <strong>Review toevoegen</strong>
-            <span class="small">Nieuwe reviews geven direct extra social proof.</span>
+            <span class="small">Nieuwe review toevoegens geven direct extra social proof.</span>
+          </button>
+          <button type="button" class="quick-action" data-jump="#services">
+            <span class="quick-action-kicker">Structuur</span>
+            <strong>Diensten aanpassen</strong>
+            <span class="small">Voeg blokken toe, haal ze weg en pas iconen aan.</span>
+          </button>
+          <button type="button" class="quick-action" data-jump="#analytics">
+            <span class="quick-action-kicker">Inzicht</span>
+            <strong>Analytics bekijken</strong>
+            <span class="small">Bekijk bezoekers, populairste pagina’s en CTA-kliks.</span>
           </button>
           <button type="button" class="quick-action" data-jump="#settings">
             <span class="quick-action-kicker">Beheer</span>
-            <strong>Site-instellingen aanpassen</strong>
-            <span class="small">Pas hero, contactinfo en homepageblokken aan.</span>
+            <strong>Website-instellingen aanpassen</strong>
+            <span class="small">Pas homepage, introteksten en contactinfo aan.</span>
           </button>
         </div>
       </section>
@@ -86,8 +102,8 @@
         <section id="projects" class="card panel">
           <div class="form-section-title">
             <div>
-              <h2 id="project-form-title" style="margin:0;">Nieuw project</h2>
-              <p class="meta" style="margin:6px 0 0;">Voeg een project toe of bewerk een bestaand project.</p>
+              <h2 id="project-form-title" style="margin:0;">Nieuw project toevoegen</h2>
+              <p class="meta" style="margin:6px 0 0;">Voeg een project toe of werk een bestaand project bij.</p>
             </div>
           </div>
           <form id="project-form" class="form-grid" enctype="multipart/form-data" data-mode="create">
@@ -99,15 +115,15 @@
               <label class="field-label">Regio<input class="input" name="region" placeholder="Bijv. Purmerend en omgeving"></label>
               <label class="field-label">Type werk<input class="input" name="service_type" placeholder="Bijv. Dakrenovatie"></label>
             </div>
-            <label class="field-label">Korte omschrijving<input class="input" name="short_description" placeholder="Korte omschrijving" required></label>
-            <label class="field-label">Volledige omschrijving<textarea name="full_description" placeholder="Vertel kort wat er is gedaan en waarom."></textarea></label>
+            <label class="field-label">Korte intro<input class="input" name="short_description" placeholder="Korte intro" required></label>
+            <label class="field-label">Uitgebreide toelichting<textarea name="full_description" placeholder="Vertel kort wat er is gedaan en waarom."></textarea></label>
             <div class="grid-fields-2">
-              <label class="small">Hoofdafbeelding <input class="input" type="file" name="hero_image" accept="image/png,image/jpeg,image/webp"></label>
-              <label class="small">Galerij foto's <input class="input" type="file" name="gallery" accept="image/png,image/jpeg,image/webp" multiple></label>
+              <label class="small">Hoofdfoto <input class="input" type="file" name="hero_image" accept="image/png,image/jpeg,image/webp"></label>
+              <label class="small">Extra projectfoto's <input class="input" type="file" name="gallery" accept="image/png,image/jpeg,image/webp" multiple></label>
             </div>
             <div class="field-inline">
               <label><input type="checkbox" name="is_featured"> Uitgelicht</label>
-              <label><input type="checkbox" name="is_published" checked> Gepubliceerd</label>
+              <label><input type="checkbox" name="is_published" checked> Live op de website</label>
             </div>
             <div class="form-actions">
               <button id="project-submit" class="btn btn-primary" type="submit">Project opslaan</button>
@@ -128,16 +144,16 @@
         <section id="reviews" class="card panel">
           <div class="form-section-title">
             <div>
-              <h2 id="review-form-title" style="margin:0;">Nieuwe review</h2>
-              <p class="meta" style="margin:6px 0 0;">Voeg vertrouwen toe aan de site met echte klantreacties.</p>
+              <h2 id="review-form-title" style="margin:0;">Nieuwe review toevoegen</h2>
+              <p class="meta" style="margin:6px 0 0;">Voeg vertrouwen toe aan de site met echte klantreacties en korte praktijkervaringen.</p>
             </div>
           </div>
           <form id="review-form" class="form-grid" data-mode="create">
             <div class="grid-fields-2">
-              <label class="field-label">Naam klant<input class="input" name="customer_name" placeholder="Naam klant" required></label>
+              <label class="field-label">Naam of klantnaam<input class="input" name="customer_name" placeholder="Naam of klantnaam" required></label>
               <label class="field-label">Plaats<input class="input" name="place" placeholder="Plaats"></label>
             </div>
-            <label class="field-label">Reviewtekst<textarea name="review_text" placeholder="Wat zei de klant over contact, snelheid en resultaat?" required></textarea></label>
+            <label class="field-label">Review of ervaring<textarea name="review_text" placeholder="Wat zei de klant over contact, snelheid en resultaat?" required></textarea></label>
             <label class="field-label">Sterren<select class="input" name="stars">
               <option value="5">5 sterren</option>
               <option value="4">4 sterren</option>
@@ -145,7 +161,7 @@
             </select></label>
             <div class="field-inline">
               <label><input type="checkbox" name="is_featured" checked> Uitgelicht</label>
-              <label><input type="checkbox" name="is_published" checked> Gepubliceerd</label>
+              <label><input type="checkbox" name="is_published" checked> Live op de website</label>
             </div>
             <div class="form-actions">
               <button id="review-submit" class="btn btn-primary" type="submit">Review opslaan</button>
@@ -163,11 +179,57 @@
           </div>
         </section>
 
+
+        <section id="services" class="card panel">
+          <div class="form-section-title">
+            <div>
+              <h2 id="service-form-title" style="margin:0;">Dienstenblok toevoegen</h2>
+              <p class="meta" style="margin:6px 0 0;">Beheer de blokken in “Onze diensten”. Voeg blokken toe, wijzig de volgorde of zet ze tijdelijk uit.</p>
+            </div>
+          </div>
+          <form id="service-form" class="form-grid" enctype="multipart/form-data" data-mode="create">
+            <div class="grid-fields-2">
+              <label class="field-label">Bloktitel<input class="input" name="title" placeholder="Bijv. Dakrenovatie" required></label>
+              <label class="field-label">Volgorde<input class="input" type="number" name="sort_order" placeholder="1"></label>
+            </div>
+            <label class="field-label">Bloktekst<textarea name="description" placeholder="Korte uitleg die onder de titel komt." required></textarea></label>
+            <div class="grid-fields-2">
+              <label class="field-label">Standaard icoon kiezen
+                <select class="input" name="icon_key">
+                  <option value="hammer">Hamer / renovatie</option>
+                  <option value="droplet">Druppel / lekkage</option>
+                  <option value="layers">Lagen / plat dak</option>
+                  <option value="house">Huis / hellend dak</option>
+                  <option value="gutter">Goot / afvoer</option>
+                  <option value="zap">Bliksem / spoed</option>
+                  <option value="shield">Schild / onderhoud</option>
+                  <option value="wrench">Sleutel / herstel</option>
+                </select>
+              </label>
+              <label class="field-label">Eigen icoon uploaden (optioneel)<input class="input" type="file" name="icon_image_file" accept="image/png,image/jpeg,image/webp,image/svg+xml"></label>
+            </div>
+            <label class="checkbox-row"><input type="checkbox" name="remove_icon_image"> Verwijder geüpload icoon en gebruik standaard icoon</label>
+            <label class="checkbox-row"><input type="checkbox" name="is_published" checked> Tonen op website</label>
+            <div class="form-actions">
+              <button type="submit" class="btn">Dienstenblok opslaan</button>
+              <button type="button" id="service-form-reset" class="btn btn-ghost hidden">Nieuwe invoer</button>
+            </div>
+            <input type="hidden" name="id">
+          </form>
+
+          <div class="table-wrap" style="margin-top:18px;">
+            <table class="table">
+              <thead><tr><th>Volgorde</th><th>Blok</th><th>Icoon</th><th>Status</th><th>Acties</th></tr></thead>
+              <tbody id="services-table"></tbody>
+            </table>
+          </div>
+        </section>
+
         <section id="leads" class="card panel">
           <div class="form-section-title">
             <div>
-              <h2 style="margin:0;">Binnengekomen leads</h2>
-              <p class="meta" style="margin:6px 0 0;">Berichten via het contactformulier blijven hier zichtbaar.</p>
+              <h2 style="margin:0;">Binnengekomen contactaanvragen</h2>
+              <p class="meta" style="margin:6px 0 0;">Nieuwe berichten via het contactformulier blijven hier overzichtelijk zichtbaar.</p>
             </div>
           </div>
           <div class="table-wrap" style="margin-top:12px;">
@@ -180,11 +242,62 @@
           </div>
         </section>
 
+        
+        <section id="analytics" class="card panel">
+          <div class="form-section-title">
+            <div>
+              <h2 style="margin:0;">Analytics</h2>
+              <p class="meta" style="margin:6px 0 0;">Eenvoudig inzicht in bezoekers, pagina’s en CTA-klikken.</p>
+            </div>
+          </div>
+          <div class="kpi-row analytics-kpi-row">
+            <div class="kpi-box">
+              <div class="label">Unieke bezoekers</div>
+              <div class="value" id="analytics-unique">0</div>
+            </div>
+            <div class="kpi-box">
+              <div class="label">Pageviews</div>
+              <div class="value" id="analytics-pageviews">0</div>
+            </div>
+            <div class="kpi-box">
+              <div class="label">CTA-kliks</div>
+              <div class="value" id="analytics-clicks">0</div>
+            </div>
+            <div class="kpi-box">
+              <div class="label">Bezoekers 7d</div>
+              <div class="value" id="analytics-7d">0</div>
+            </div>
+          </div>
+          <div class="grid-2 analytics-grid">
+            <div class="table-wrap">
+              <h3 style="margin:0 0 12px;">Populairste pagina’s</h3>
+              <table>
+                <thead><tr><th>Pagina</th><th>Views</th></tr></thead>
+                <tbody id="analytics-pages-table"></tbody>
+              </table>
+            </div>
+            <div class="table-wrap">
+              <h3 style="margin:0 0 12px;">Meest geklikte knoppen</h3>
+              <table>
+                <thead><tr><th>CTA</th><th>Kliks</th></tr></thead>
+                <tbody id="analytics-clicks-table"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="table-wrap" style="margin-top:20px;">
+            <h3 style="margin:0 0 12px;">Recente activiteit</h3>
+            <table>
+              <thead><tr><th>Type</th><th>Pagina</th><th>Doel</th><th>Moment</th></tr></thead>
+              <tbody id="analytics-recent-table"></tbody>
+            </table>
+          </div>
+        </section>
+
         <section id="settings" class="card panel">
           <div class="form-section-title">
             <div>
-              <h2 style="margin:0;">Site-instellingen</h2>
-              <p class="meta" style="margin:6px 0 0;">Pas hier bedrijfsnaam, contactinformatie en hero-tekst aan.</p>
+              <h2 style="margin:0;">Website-instellingen</h2>
+              <p class="meta" style="margin:6px 0 0;">Pas hier bedrijfsnaam, contactinformatie en alle beheerbare tekstblokken van de website aan.</p>
             </div>
           </div>
           <form id="settings-form" class="form-grid">
@@ -197,13 +310,57 @@
               <label class="field-label">WhatsApp nummer<input class="input" name="whatsapp" placeholder="WhatsApp (316...)" required></label>
             </div>
             <label class="field-label">E-mail<input class="input" name="email" placeholder="E-mail" required></label>
-            <label class="field-label">Hero titel<input class="input" name="hero_title" placeholder="Hero titel" required></label>
-            <label class="field-label">Hero subtitel<textarea name="hero_subtitle" placeholder="Hero subtitel" required></textarea></label>
             <div class="settings-block">
               <div class="form-section-title" style="margin-top:6px;">
                 <div>
-                  <h3 style="margin:0;">Blokken boven “Onze diensten”</h3>
-                  <p class="meta" style="margin:6px 0 0;">Deze drie kaarten op de homepage zijn nu ook volledig aanpasbaar.</p>
+                  <h3 style="margin:0;">Hero linksblok</h3>
+                  <p class="meta" style="margin:6px 0 0;">Alles uit het grote linker blok op de homepage: label, titel, notitie en chips.</p>
+                </div>
+              </div>
+              <label class="field-label">Hero label boven titel<input class="input" name="hero_eyebrow" placeholder="Bijv. Betrouwbare dakpartner in de regio"></label>
+              <label class="field-label">Hero titel<input class="input" name="hero_title" placeholder="Hero titel" required></label>
+                            <label class="field-label">Kleine notitie onder knoppen<textarea name="hero_note" placeholder="Bijv. Meestal eerste reactie dezelfde dag."></textarea></label>
+              <div class="grid-fields-2">
+                <label class="field-label">Chip 1<input class="input" name="hero_point_1" placeholder="Bijv. Purmerend als hoofdregio"></label>
+                <label class="field-label">Chip 2<input class="input" name="hero_point_2" placeholder="Bijv. Echte projectfoto’s"></label>
+              </div>
+              <label class="field-label">Chip 3<input class="input" name="hero_point_3" placeholder="Bijv. Snelle reactie bij lekkage"></label>
+              <label class="field-label">Spoedbanner tekst<input class="input" name="emergency_text" placeholder="Bijv. Spoed bij lekkage of schade? App direct."></label>
+            </div>
+            <div class="settings-block">
+              <div class="form-section-title" style="margin-top:6px;">
+                <div>
+                  <h3 style="margin:0;">Vertrouwensblok rechts</h3>
+                  <p class="meta" style="margin:6px 0 0;">Alles uit het rechter vertrouwensblok op de homepage: label, titel, uitleg en vier subblokken.</p>
+                </div>
+              </div>
+              <label class="field-label">Rechterblok label<input class="input" name="panel_kicker" placeholder="Bijv. Waarom dit werkt"></label>
+              <label class="field-label">Rechterblok titel<input class="input" name="panel_title" placeholder="Titel van het rechter blok"></label>
+              <label class="field-label">Rechterblok tekst<textarea name="panel_text" placeholder="Toelichting in het rechter blok"></textarea></label>
+              <div class="grid-fields-2">
+                <label class="field-label">Stat 1 titel<input class="input" name="stat_1_title" placeholder="Bijv. Snel bereikbaar"></label>
+                <label class="field-label">Stat 1 tekst<textarea name="stat_1_text" placeholder="Stat 1 tekst"></textarea></label>
+              </div>
+              <div class="grid-fields-2">
+                <label class="field-label">Stat 2 titel<input class="input" name="stat_2_title" placeholder="Bijv. Echte projecten"></label>
+                <label class="field-label">Stat 2 tekst<textarea name="stat_2_text" placeholder="Stat 2 tekst"></textarea></label>
+              </div>
+              <div class="grid-fields-2">
+                <label class="field-label">Stat 3 titel<input class="input" name="stat_3_title" placeholder="Bijv. Regiofocus"></label>
+                <label class="field-label">Stat 3 tekst<textarea name="stat_3_text" placeholder="Stat 3 tekst"></textarea></label>
+              </div>
+              <div class="grid-fields-2">
+                <label class="field-label">Stat 4 titel<input class="input" name="stat_4_title" placeholder="Bijv. Duidelijke afspraken"></label>
+                <label class="field-label">Stat 4 tekst<textarea name="stat_4_text" placeholder="Stat 4 tekst"></textarea></label>
+              </div>
+            </div>
+            <label class="field-label">Hero titel<input class="input" name="hero_title" placeholder="Hero titel" required></label>
+            <label class="field-label">Hero introductietekst<textarea name="hero_subtitle" placeholder="Hero introductietekst" required></textarea></label>
+            <div class="settings-block">
+              <div class="form-section-title" style="margin-top:6px;">
+                <div>
+                  <h3 style="margin:0;">Informatiebalk boven “Onze diensten”</h3>
+                  <p class="meta" style="margin:6px 0 0;">Deze drie compacte kaarten op de homepage zijn volledig aanpasbaar.</p>
                 </div>
               </div>
               <div class="grid-fields-2">
@@ -221,6 +378,79 @@
                 <label class="field-label">Kaart 3 titel<input class="input" name="home_card_3_title" placeholder="Kaart 3 titel"></label>
               </div>
               <label class="field-label">Kaart 3 tekst<textarea name="home_card_3_text" placeholder="Kaart 3 tekst"></textarea></label>
+            </div>
+            
+            <div class="settings-block">
+              <div class="form-section-title" style="margin-top:6px;">
+                <div>
+                  <h3 style="margin:0;">Dienstenpagina inhoud</h3>
+                  <p class="meta" style="margin:6px 0 0;">Bepaal intro en CTA van de dienstenpagina.</p>
+                </div>
+              </div>
+              <label class="field-label">Label boven titel<input class="input" name="services_page_eyebrow" placeholder="Onze diensten"></label>
+              <label class="field-label">Titel<input class="input" name="services_page_title" placeholder="Dienstenpagina inhoud titel"></label>
+              <label class="field-label">Introtekst<textarea name="services_page_text" placeholder="Intro dienstenpagina"></textarea></label>
+              <div class="grid-fields-2">
+                <label class="field-label">CTA titel<input class="input" name="services_cta_title" placeholder="CTA titel diensten"></label>
+                <label class="field-label">CTA tekst<textarea name="services_cta_text" placeholder="CTA tekst diensten"></textarea></label>
+              </div>
+            </div>
+            <div class="settings-block">
+              <div class="form-section-title" style="margin-top:6px;">
+                <div>
+                  <h3 style="margin:0;">Projectenpagina inhoud</h3>
+                  <p class="meta" style="margin:6px 0 0;">Pas bovenste intro van projecten aan.</p>
+                </div>
+              </div>
+              <label class="field-label">Label boven titel<input class="input" name="projects_page_eyebrow" placeholder="Projecten uit de praktijk"></label>
+              <label class="field-label">Titel<input class="input" name="projects_page_title" placeholder="Projecten titel"></label>
+              <label class="field-label">Introtekst<textarea name="projects_page_text" placeholder="Projecten intro"></textarea></label>
+            </div>
+            <div class="settings-block">
+              <div class="form-section-title" style="margin-top:6px;">
+                <div>
+                  <h3 style="margin:0;">Over ons pagina inhoud</h3>
+                  <p class="meta" style="margin:6px 0 0;">Maak de over-pagina volledig beheerbaar.</p>
+                </div>
+              </div>
+              <label class="field-label">Label boven titel<input class="input" name="over_page_eyebrow" placeholder="Over ons"></label>
+              <label class="field-label">Titel<input class="input" name="over_page_title" placeholder="Over pagina titel"></label>
+              <label class="field-label">Introtekst<textarea name="over_page_text" placeholder="Over pagina intro"></textarea></label>
+              <div class="grid-fields-2">
+                <label class="field-label">Kernwaarde 1<input class="input" name="over_value_1"></label>
+                <label class="field-label">Kernwaarde 2<input class="input" name="over_value_2"></label>
+              </div>
+              <div class="grid-fields-2">
+                <label class="field-label">Kernwaarde 3<input class="input" name="over_value_3"></label>
+                <label class="field-label">Kernwaarde 4<input class="input" name="over_value_4"></label>
+              </div>
+              <label class="field-label">Kernwaarde 5<input class="input" name="over_value_5"></label>
+              <div class="grid-fields-2">
+                <label class="field-label">Werkgebied titel<input class="input" name="over_region_title"></label>
+                <label class="field-label">Werkgebied hoofdtekst<input class="input" name="over_region_text"></label>
+              </div>
+              <label class="field-label">Werkgebied toelichting<textarea name="over_region_note"></textarea></label>
+              <div class="grid-fields-2">
+                <label class="field-label">CTA titel<input class="input" name="over_cta_title"></label>
+                <label class="field-label">CTA tekst<textarea name="over_cta_text"></textarea></label>
+              </div>
+            </div>
+            <div class="settings-block">
+              <div class="form-section-title" style="margin-top:6px;">
+                <div>
+                  <h3 style="margin:0;">Contactpagina inhoud</h3>
+                  <p class="meta" style="margin:6px 0 0;">Pas intro, strips en form-notitie aan.</p>
+                </div>
+              </div>
+              <label class="field-label">Label boven titel<input class="input" name="contact_page_eyebrow"></label>
+              <label class="field-label">Titel<input class="input" name="contact_page_title"></label>
+              <label class="field-label">Introtekst<textarea name="contact_page_text"></textarea></label>
+              <div class="grid-fields-3">
+                <label class="field-label">Strip 1<input class="input" name="contact_strip_1"></label>
+                <label class="field-label">Strip 2<input class="input" name="contact_strip_2"></label>
+                <label class="field-label">Strip 3<input class="input" name="contact_strip_3"></label>
+              </div>
+              <label class="field-label">Formulier notitie<textarea name="contact_form_note"></textarea></label>
             </div>
             <label><input type="checkbox" name="emergency_enabled"> Spoed zichtbaar</label>
             <button class="btn btn-primary" type="submit">Instellingen opslaan</button>

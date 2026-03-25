@@ -82,6 +82,24 @@ async function loadReviews() {
   `).join('') || '<tr><td colspan="4">Nog geen reviews</td></tr>';
 }
 
+async function loadServices() {
+  const items = await api('/api/services/admin/all/list');
+  const tbody = document.getElementById('services-table');
+  if (tbody) {
+    tbody.innerHTML = items.map((item) => `
+      <tr>
+        <td>${item.sort_order ?? ''}</td>
+        <td><strong>${item.title}</strong><div class="meta">${item.description}</div></td>
+        <td>${item.icon_image ? '<span class="tag">Upload</span>' : `<span class="tag">${item.icon_key || 'hammer'}</span>`}</td>
+        <td>${item.is_published ? '<span class="tag">Live</span>' : '<span class="tag muted">Verborgen</span>'}</td>
+        <td class="table-actions">
+          <button class="btn btn-ghost" type="button" data-action="edit-service" data-id="${item.id}">Bewerken</button>
+          <button class="btn btn-ghost" type="button" data-action="delete-service" data-id="${item.id}">Verwijderen</button>
+        </td>
+      </tr>`).join('');
+  }
+}
+
 async function loadLeads() {
   const leads = await api('/api/contact/admin/all/list');
   document.getElementById('lead-count').textContent = leads.length;
@@ -199,6 +217,37 @@ function bindReviewForm() {
   });
 }
 
+function resetServiceForm() {
+  const form = document.getElementById('service-form');
+  if (!form) return;
+  form.reset();
+  form.dataset.mode = 'create';
+  form.querySelector('[name=id]').value = '';
+  document.getElementById('service-form-title').textContent = 'Nieuw dienstenblok';
+  document.getElementById('service-form-reset')?.classList.add('hidden');
+  const submit = form.querySelector('button[type=submit]');
+  if (submit) submit.textContent = 'Dienstenblok opslaan';
+}
+
+function bindServiceForm() {
+  const form = document.getElementById('service-form');
+  if (!form || form.dataset.bound === '1') return;
+  form.dataset.bound = '1';
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const id = fd.get('id');
+    const mode = form.dataset.mode || 'create';
+    const endpoint = mode === 'edit' && id ? `/api/services/admin/update/${id}` : '/api/services/admin/create';
+    const result = await api(endpoint, { method: 'POST', body: fd });
+    if (!result.error) {
+      resetServiceForm();
+      await loadServices();
+    }
+  });
+  document.getElementById('service-form-reset')?.addEventListener('click', resetServiceForm);
+}
+
 function bindSettingsForm() {
   const form = document.getElementById('settings-form');
   form.addEventListener('submit', async (e) => {
@@ -278,6 +327,7 @@ function bindLogout() {
 
   bindProjectForm();
   bindReviewForm();
+  bindServiceForm();
   bindSettingsForm();
   bindTables();
   bindLogout();
@@ -288,5 +338,7 @@ function bindLogout() {
   try { await loadSettings(); } catch (err) { console.error('loadSettings fout:', err); }
   try { await loadProjects(); } catch (err) { console.error('loadProjects fout:', err); }
   try { await loadReviews(); } catch (err) { console.error('loadReviews fout:', err); }
+  try { await loadServices(); } catch (err) { console.error('loadServices fout:', err); }
   try { await loadLeads(); } catch (err) { console.error('loadLeads fout:', err); }
+  try { await loadAnalytics(); } catch (err) { console.error('loadAnalytics fout:', err); }
 })();

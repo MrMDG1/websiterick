@@ -46,19 +46,20 @@
   <main class="section">
     <div class="container">
       <div class="page-intro">
-        <div class="eyebrow">Contact opnemen</div>
-        <h1>Vraag advies of plan een afspraak</h1>
-        <p>Heb je een vraag, schade aan je dak of plannen voor renovatie? Neem gerust contact op. We helpen je graag verder.</p>
+        <div class="eyebrow" id="contact-page-eyebrow">Contact opnemen</div>
+        <h1 id="contact-page-title">Vraag advies of plan een afspraak</h1>
+        <p id="contact-page-text">Heb je een vraag, schade aan je dak of plannen voor renovatie? Neem gerust contact op. We helpen je graag verder.</p>
       </div>
 
       <div class="contact-strip">
-        <div class="contact-strip-item">Reactie meestal dezelfde dag</div>
-        <div class="contact-strip-item">Spoed via WhatsApp of bellen</div>
-        <div class="contact-strip-item">Werkzaam in Purmerend en omgeving</div>
+        <div id="contact-strip-1" class="contact-strip-item">Reactie meestal dezelfde dag</div>
+        <div id="contact-strip-2" class="contact-strip-item">Spoed via WhatsApp of bellen</div>
+        <div id="contact-strip-3" class="contact-strip-item">Werkzaam in Purmerend en omgeving</div>
       </div>
 
       <div class="grid-2">
         <article class="card content-card">
+          <div class="section-kicker">Contactopties</div>
           <h2>Direct contact</h2>
           <div class="contact-list">
             <a id="contact-phone" href="tel:0612345678">📞 <span id="contact-phone-text">0612345678</span></a>
@@ -72,6 +73,7 @@
         </article>
 
         <article class="card content-card">
+          <div class="section-kicker">Formulier</div>
           <h2>Bericht sturen</h2>
           <form id="contact-form" class="form-grid">
             <input class="input" name="name" placeholder="Naam" required>
@@ -80,7 +82,7 @@
             <input class="input" name="city" placeholder="Woonplaats">
             <textarea name="message" placeholder="Beschrijf kort je situatie" required></textarea>
             <button class="btn btn-primary" type="submit">Verstuur bericht</button>
-            <div class="form-note">Liever direct schakelen? Bel of app voor de snelste reactie.</div>
+            <div id="contact-form-note" class="form-note">Liever direct schakelen? Bel of app voor de snelste reactie.</div>
             <div id="contact-status"></div>
           </form>
         </article>
@@ -94,7 +96,7 @@
     <div class="small">Werkgebied: <span id="footer-region">Purmerend en omgeving</span></div>
   </div>
 </footer>
-<a id="wa-float" class="btn btn-primary whatsapp-float" href="#">WhatsApp</a>
+<a id="wa-float" data-track="WhatsApp sticky" class="btn btn-primary whatsapp-float" href="#">WhatsApp</a>
 <script src="/js/site.js"></script>
 
 </body>
