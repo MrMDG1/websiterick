@@ -576,3 +576,23 @@ th{font-size:.84rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mu
 .admin-nav-label .nav-subtitle{font-size:.78rem;line-height:1.35;color:rgba(255,255,255,.62);white-space:normal;overflow-wrap:anywhere;word-break:normal;}
 .admin-nav-arrow{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-width:18px;color:rgba(255,255,255,.78);}
 .admin-nav a:hover .nav-subtitle,.admin-nav a.active .nav-subtitle{color:rgba(255,255,255,.82);}
+
+
+/* v1.4.9 final polish */
+.btn,
+.admin-nav a,
+.service-card,
+.project-card,
+.info-card,
+.stat-card {
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background-color .18s ease, color .18s ease;
+}
+
+@media (hover:hover) and (pointer:fine) {
+  .service-card:hover,
+  .project-card:hover,
+  .info-card:hover,
+  .stat-card:hover {
+    transform: translateY(-2px);
+  }
+}

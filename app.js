@@ -131,6 +131,7 @@ function runStartupMigrations() {
 
 const PORT = process.env.PORT || 3000;
 const isProd = process.env.NODE_ENV === 'production';
+const ASSET_VERSION = '149';
 
 const uploadDir = path.join(__dirname, 'public', 'uploads');
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
@@ -204,7 +205,14 @@ app.use(session({
 }));
 
 app.use(express.static(path.join(__dirname, 'public'), {
-  maxAge: isProd ? '7d' : 0
+  maxAge: isProd ? '7d' : 0,
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+    }
+  }
 }));
 
 app.get('/admin', requireAuth, (req, res) => {

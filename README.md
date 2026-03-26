@@ -61,3 +61,9 @@ PUBLIC_EMAIL=info@jouwdomein.nl
 5. Gebruik HTTPS / reverse proxy in productie
 6. Pas `robots.txt`, `sitemap.xml` en canonicals aan naar je echte domein
 7. Voeg echte projectfoto's toe
+
+
+## v1.4.9
+- Cache-busting toegevoegd voor CSS/JS (`?v=149`)
+- HTML responses sturen nu no-cache headers mee
+- Kleine UI polish op hover/transitions
