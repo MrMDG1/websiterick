@@ -99,7 +99,11 @@ function runStartupMigrations() {
     `ALTER TABLE site_settings ADD COLUMN contact_strip_1 TEXT NOT NULL DEFAULT 'Reactie meestal dezelfde dag'`,
     `ALTER TABLE site_settings ADD COLUMN contact_strip_2 TEXT NOT NULL DEFAULT 'Spoed via WhatsApp of bellen'`,
     `ALTER TABLE site_settings ADD COLUMN contact_strip_3 TEXT NOT NULL DEFAULT 'Werkzaam in Purmerend en omgeving'`,
-    `ALTER TABLE site_settings ADD COLUMN contact_form_note TEXT NOT NULL DEFAULT 'Liever direct schakelen? Bel of app voor de snelste reactie.'`
+    `ALTER TABLE site_settings ADD COLUMN contact_form_note TEXT NOT NULL DEFAULT 'Liever direct schakelen? Bel of app voor de snelste reactie.'`,
+    `ALTER TABLE site_settings ADD COLUMN home_services_eyebrow TEXT NOT NULL DEFAULT 'Dienstenoverzicht'`,
+    `ALTER TABLE site_settings ADD COLUMN home_services_title TEXT NOT NULL DEFAULT 'Onze diensten'`,
+    `ALTER TABLE site_settings ADD COLUMN home_services_text TEXT NOT NULL DEFAULT 'Van kleine reparaties tot complete dakrenovaties. Geen moeilijke verhalen, wel een duidelijke aanpak.'`,
+    `ALTER TABLE site_settings ADD COLUMN home_services_cta TEXT NOT NULL DEFAULT 'Bekijk alle diensten'`
   ];
   for (const statement of migrationStatements) {
     try {
@@ -131,7 +135,7 @@ function runStartupMigrations() {
 
 const PORT = process.env.PORT || 3000;
 const isProd = process.env.NODE_ENV === 'production';
-const ASSET_VERSION = '149';
+const ASSET_VERSION = '1500';
 
 const uploadDir = path.join(__dirname, 'public', 'uploads');
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });

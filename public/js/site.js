@@ -40,13 +40,21 @@ async function trackEvent(eventType, targetLabel = '', targetValue = '') {
 
 
 function iconForService(service = '') {
-  const value = service.toLowerCase();
-  if (value.includes('lekk')) return '💧';
-  if (value.includes('plat')) return '▭';
-  if (value.includes('hell')) return '🏠';
-  if (value.includes('goot')) return '↘';
-  if (value.includes('spoed')) return '⚡';
+  const value = String(service).toLowerCase();
+  if (value.includes('droplet') || value.includes('lekk')) return '💧';
+  if (value.includes('layers') || value.includes('plat')) return '▭';
+  if (value.includes('house') || value.includes('hell')) return '🏠';
+  if (value.includes('gutter') || value.includes('goot')) return '↘';
+  if (value.includes('zap') || value.includes('spoed')) return '⚡';
   return '🔨';
+}
+
+function serviceIconMarkup(service = {}) {
+  if (service.icon_image) {
+    return `<img src="${service.icon_image}" alt="${service.title || 'Dienst'}" class="service-icon-image">`;
+  }
+  const key = service.icon_key || service.title || '';
+  return `<span aria-hidden="true">${iconForService(key)}</span>`;
 }
 
 function projectCard(project) {
@@ -77,11 +85,14 @@ function reviewCard(review) {
 
 async function serviceCards() {
   const services = await getJson('/api/services');
+  if (!Array.isArray(services) || !services.length) {
+    return '<div class="empty-state card">Nog geen diensten toegevoegd.</div>';
+  }
   return services.map((service) => `
     <article class="card service-card">
       <div class="service-icon">${serviceIconMarkup(service)}</div>
-      <h3>${service.title}</h3>
-      <p class="meta">${service.description}</p>
+      <h3>${service.title || ''}</h3>
+      <p class="meta">${service.description || ''}</p>
     </article>
   `).join('');
 }
@@ -143,6 +154,10 @@ async function hydrateSettings() {
   setText('home-card-3-label', settings.home_card_3_label);
   setText('home-card-3-title', settings.home_card_3_title);
   setText('home-card-3-text', settings.home_card_3_text);
+  setText('home-services-eyebrow', settings.home_services_eyebrow || 'Dienstenoverzicht');
+  setText('home-services-title', settings.home_services_title || 'Onze diensten');
+  setText('home-services-text', settings.home_services_text || 'Van kleine reparaties tot complete dakrenovaties. Geen moeilijke verhalen, wel een duidelijke aanpak.');
+  setText('home-services-cta', settings.home_services_cta || 'Bekijk alle diensten');
 setText('services-page-eyebrow', settings.services_page_eyebrow);
 setText('services-page-title', settings.services_page_title);
 setText('services-page-text', settings.services_page_text);
@@ -203,9 +218,11 @@ async function hydrateServices() {
   const wrap = document.getElementById('services-grid');
   if (!wrap) return;
   try {
-    wrap.innerHTML = await serviceCards();
+    const cards = await serviceCards();
+    wrap.innerHTML = cards;
   } catch (error) {
-    wrap.innerHTML = "<div class=\'empty-state card\'>Nog geen diensten toegevoegd.</div>";
+    console.warn('Diensten laden mislukt:', error);
+    wrap.innerHTML = "<div class=\'empty-state card\'>Diensten konden niet geladen worden.</div>";
   }
 }
 
