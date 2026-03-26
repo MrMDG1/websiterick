@@ -267,11 +267,14 @@ function bindContactForm() {
   bindMobileMenu();
   bindTrackables();
   const page = document.body.dataset.page;
-  const grid = document.getElementById('services-grid');
-  if (grid) grid.innerHTML = serviceCards();
   try {
     await hydrateSettings();
-    if (page === 'home') await hydrateHome();
+    if (page === 'home') {
+      await Promise.all([hydrateHome(), hydrateServices()]);
+    }
+    if (page === 'diensten') {
+      await hydrateServices();
+    }
     if (page === 'projecten') await hydrateProjectsPage();
     if (page === 'project') await hydrateProjectPage();
   } catch (e) {

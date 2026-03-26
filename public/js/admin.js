@@ -266,20 +266,47 @@ function resetServiceForm() {
   if (submit) submit.textContent = 'Dienstenblok opslaan';
 }
 
+
+async function startEditService(id) {
+  const service = await api(`/api/services/admin/${id}`);
+  const form = document.getElementById('service-form');
+  if (!form) return;
+  form.dataset.mode = 'edit';
+  form.querySelector('[name=id]').value = id;
+  form.elements.title.value = service.title || '';
+  form.elements.sort_order.value = service.sort_order ?? '';
+  form.elements.description.value = service.description || '';
+  form.elements.icon_key.value = service.icon_key || 'hammer';
+  form.elements.remove_icon_image.checked = false;
+  form.elements.is_published.checked = !!service.is_published;
+  document.getElementById('service-form-title').textContent = 'Dienstenblok bewerken';
+  document.getElementById('service-form-reset')?.classList.remove('hidden');
+  const submit = form.querySelector('button[type=submit]');
+  if (submit) submit.textContent = 'Wijzigingen opslaan';
+  window.location.hash = '#services';
+  setActiveAdminLink();
+  form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 function bindServiceForm() {
   const form = document.getElementById('service-form');
   if (!form || form.dataset.bound === '1') return;
   form.dataset.bound = '1';
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const fd = new FormData(form);
-    const id = fd.get('id');
-    const mode = form.dataset.mode || 'create';
-    const endpoint = mode === 'edit' && id ? `/api/services/admin/update/${id}` : '/api/services/admin/create';
-    const result = await api(endpoint, { method: 'POST', body: fd });
-    if (!result.error) {
-      resetServiceForm();
-      await loadServices();
+    try {
+      const fd = new FormData(form);
+      const id = fd.get('id');
+      const mode = form.dataset.mode || 'create';
+      const endpoint = mode === 'edit' && id ? `/api/services/admin/update/${id}` : '/api/services/admin/create';
+      const result = await api(endpoint, { method: 'POST', body: fd });
+      if (!result.error) {
+        notice('service-status', mode === 'edit' ? 'Dienstenblok bijgewerkt.' : 'Dienstenblok opgeslagen.');
+        resetServiceForm();
+        await loadServices();
+      }
+    } catch (err) {
+      notice('service-status', err.message, true);
     }
   });
   document.getElementById('service-form-reset')?.addEventListener('click', resetServiceForm);
@@ -322,6 +349,18 @@ function bindTables() {
       notice('review-status', 'Review verwijderd.');
       resetReviewForm();
       return loadReviews();
+    }
+    const serviceEdit = e.target.closest('[data-action="edit-service"]');
+    if (serviceEdit) {
+      return startEditService(serviceEdit.dataset.id);
+    }
+    const serviceDelete = e.target.closest('[data-action="delete-service"]');
+    if (serviceDelete) {
+      if (!confirm('Dienstenblok verwijderen?')) return;
+      await api(`/api/services/admin/delete/${serviceDelete.dataset.id}`, { method: 'POST' });
+      notice('service-status', 'Dienstenblok verwijderd.');
+      resetServiceForm();
+      return loadServices();
     }
   });
 }
